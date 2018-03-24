@@ -1,0 +1,50 @@
+group 'org.antonik.website'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "ru.d10xa:gradle-allure-plugin:0.5.0"
+    }
+}
+
+
+group 'com.exemple'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'ru.d10xa.allure'
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '2.0.0'
+    compile group: 'org.testng', name: 'testng', version: '6.13.1'
+    compile group: 'com.codeborne', name: 'selenide', version: '4.8'
+    compile group: 'ru.yandex.qatools.allure', name: 'allure-testng-adaptor', version: '1.5.4'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
+
+    compile group: 'com.github.detro.ghostdriver', name: 'phantomjsdriver', version: '1.0.1'
+}
+
+allure {
+    aspectjweaver = true
+    testNG = true
+    allureVersion = "1.4.24.RC3"
+}
+
+test {
+    useTestNG()
+    systemProperty 'allure.results.directory', 'build/allure-results'
+}
+
+
+tasks.withType(Test)*.finalizedBy allureReport
