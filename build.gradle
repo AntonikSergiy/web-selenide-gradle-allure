@@ -41,6 +41,10 @@ allure {
     allureVersion = "1.4.24.RC3"
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.6'
+}
+
 test {
     useTestNG()
     systemProperty 'allure.results.directory', 'build/allure-results'
